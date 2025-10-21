@@ -1,0 +1,1758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Arena - Earn Through Knowledge</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #6a11cb;
+            --secondary: #2575fc;
+            --accent: #ff416c;
+            --success: #00b09b;
+            --danger: #ff416c;
+            --warning: #ffd200;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --purple: #8e2de2;
+            --blue: #4a00e0;
+            --cyan: #00c6ff;
+            --pink: #ff0080;
+            --orange: #ff8c00;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: var(--light);
+            min-height: 100vh;
+            background-attachment: fixed;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header Styles */
+        header {
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 20px rgba(255, 65, 108, 0.7);
+            border: 2px solid var(--accent);
+        }
+
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .logo-text {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--accent), var(--warning));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+        }
+
+        .btn-login {
+            background: transparent;
+            border: 2px solid var(--cyan);
+            color: var(--cyan);
+        }
+
+        .btn-signup {
+            background: linear-gradient(to right, var(--pink), var(--purple));
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Slider Section */
+        .slider-section {
+            margin: 30px 0;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            position: relative;
+        }
+
+        .slider {
+            position: relative;
+            height: 350px;
+            overflow: hidden;
+        }
+
+        .slides {
+            display: flex;
+            width: 600%;
+            height: 100%;
+            animation: slide 24s infinite;
+        }
+
+        .slide {
+            width: 16.666%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .slide:nth-child(1) { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://cdn.wallpapersafari.com/65/88/cQ2Cf4.jpg'); }
+        .slide:nth-child(2) { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://www.skyweaver.net/images/media/wallpapers/wallpaper2.jpg'); }
+        .slide:nth-child(3) { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://i.pinimg.com/736x/7d/fa/15/7dfa15cefc56fe7927c3d4958b49fb11.jpg'); }
+        .slide:nth-child(4) { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://pixelz.cc/wp-content/uploads/2024/01/ferrari-499p-le-mans-hypercar-uhd-4k-wallpaper.jpg'); }
+        .slide:nth-child(5) { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://www.shutterstock.com/shutterstock/videos/3440819953/thumb/1.jpg?ip=x480'); }
+        .slide:nth-child(6) { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQAjA3uXxFfP0MAxAXZ4OQ475SvWpanovuNMA&s'); }
+
+        .slide-content {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+            max-width: 600px;
+        }
+
+        .slide-content h2 {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: var(--cyan);
+        }
+
+        .slide-content p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        @keyframes slide {
+            0% { transform: translateX(0); }
+            16.66% { transform: translateX(0); }
+            33.32% { transform: translateX(-16.666%); }
+            49.98% { transform: translateX(-33.332%); }
+            66.64% { transform: translateX(-50%); }
+            83.3% { transform: translateX(-66.666%); }
+            100% { transform: translateX(-83.332%); }
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            gap: 30px;
+            margin: 40px 0;
+        }
+
+        .winners-section, .dreams-section {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .section-title {
+            font-size: 26px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--accent);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--cyan);
+        }
+
+        .section-title i {
+            color: var(--accent);
+        }
+
+        .winner-list {
+            list-style: none;
+        }
+
+        .winner-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--accent);
+        }
+
+        .winner-item:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateX(8px);
+        }
+
+        .winner-avatar {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: linear-gradient(to right, var(--pink), var(--purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 18px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .winner-details h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: var(--cyan);
+        }
+
+        .winner-details p {
+            color: var(--warning);
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .dreams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .dream-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .dream-card:hover {
+            transform: translateY(-12px);
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent);
+        }
+
+        .dream-image {
+            height: 160px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .dream-1 { background-image: url('https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'); }
+        .dream-2 { background-image: url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80'); }
+        .dream-3 { background-image: url('https://images.unsplash.com/photo-1509062522246-3755977927d7?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8dGVhY2hlcnxlbnwwfHwwfHx8MA%3D%3D&fm=jpg&q=60&w=3000'); }
+
+        .dream-content {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .dream-content h3 {
+            margin-bottom: 10px;
+            font-size: 20px;
+            color: var(--cyan);
+        }
+
+        .dream-content p {
+            color: #ddd;
+            line-height: 1.5;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 40px 0 20px;
+            margin-top: 50px;
+            border-top: 2px solid var(--accent);
+        }
+
+        .footer-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 30px;
+        }
+
+        .footer-section {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .footer-section h3 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+            display: inline-block;
+            color: var(--cyan);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 14px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            width: 90%;
+            max-width: 500px;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+            position: relative;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 26px;
+            cursor: pointer;
+            color: #ccc;
+            transition: color 0.3s;
+            background: rgba(0, 0, 0, 0.3);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .close-modal:hover {
+            color: white;
+            background: rgba(255, 65, 108, 0.3);
+        }
+
+        .modal-title {
+            font-size: 28px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: var(--cyan);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #ddd;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 10px rgba(255, 65, 108, 0.3);
+        }
+
+        .btn-block {
+            width: 100%;
+            padding: 15px;
+            font-size: 17px;
+            margin-top: 10px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .alert-success {
+            background: rgba(0, 176, 155, 0.2);
+            border: 1px solid var(--success);
+            color: #b8f7c4;
+        }
+
+        .alert-danger {
+            background: rgba(255, 65, 108, 0.2);
+            border: 1px solid var(--danger);
+            color: #f8b4ba;
+        }
+
+        /* Quiz Styles */
+        .quiz-container {
+            display: none;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .quiz-timer {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--warning);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 10px;
+            border: 1px solid var(--warning);
+        }
+
+        .quiz-progress {
+            font-size: 18px;
+            color: var(--cyan);
+            font-weight: 600;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+        }
+
+        .question-text {
+            font-size: 22px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            color: var(--cyan);
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        .option {
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+            font-size: 17px;
+        }
+
+        .option:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .option.selected {
+            background: rgba(0, 198, 255, 0.3);
+            border: 2px solid var(--cyan);
+            box-shadow: 0 5px 15px rgba(0, 198, 255, 0.2);
+        }
+
+        .option.correct {
+            background: rgba(0, 176, 155, 0.3);
+            border: 2px solid var(--success);
+            box-shadow: 0 5px 15px rgba(0, 176, 155, 0.2);
+        }
+
+        .option.incorrect {
+            background: rgba(255, 65, 108, 0.3);
+            border: 2px solid var(--danger);
+            box-shadow: 0 5px 15px rgba(255, 65, 108, 0.2);
+        }
+
+        .quiz-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .btn-quiz {
+            padding: 14px 30px;
+            font-size: 17px;
+            border-radius: 12px;
+        }
+
+        .profile-section {
+            display: none;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(to right, var(--pink), var(--purple));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+            border: 3px solid var(--accent);
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-avatar-edit {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: rgba(0, 0, 0, 0.7);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 16px;
+        }
+
+        .profile-details h2 {
+            font-size: 28px;
+            margin-bottom: 8px;
+            color: var(--cyan);
+        }
+
+        .profile-details p {
+            color: #ddd;
+            margin-bottom: 5px;
+        }
+
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--accent);
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--warning);
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            font-size: 15px;
+            color: #ccc;
+        }
+
+        /* Edit Profile Modal */
+        .edit-profile-form {
+            display: none;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .main-content {
+                flex-direction: column;
+            }
+
+            .slider {
+                height: 250px;
+            }
+
+            .slide-content {
+                bottom: 20px;
+                left: 20px;
+                right: 20px;
+            }
+
+            .slide-content h2 {
+                font-size: 24px;
+            }
+
+            .footer-content {
+                flex-direction: column;
+            }
+
+            .quiz-actions {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .btn-quiz {
+                width: 100%;
+            }
+
+            .profile-header {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo">
+                        <!-- Replace with your own image path -->
+                        <img src="https://www.timesbull.com/wp-content/uploads/2024/09/Earn-Money-Online-2-jpg.webp" alt="AI Arena Logo">
+                    </div>
+                    <div class="logo-text">Dreamfix</div>
+                </div>
+                <div class="auth-buttons">
+                    <button class="btn btn-login" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Login</button>
+                    <button class="btn btn-signup" id="signupBtn"><i class="fas fa-user-plus"></i> Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Slider Section -->
+    <section class="slider-section">
+        <div class="slider">
+            <div class="slides">
+                <div class="slide">
+                    <div class="slide-content">
+                        <h2>Test Your Knowledge</h2>
+                        <p>Compete with the best minds and win exciting prizes in our AI-powered quiz arena</p>
+                    </div>
+                    
+                </div>
+                <div class="slide">
+                    <div class="slide-content">
+                        <!-- <h2>Multiple Categories</h2>
+                        <p>Physics, Math, Biology, History and more - challenge yourself in various subjects</p> -->
+                    </div>
+                </div>
+                <div class="slide">
+                    <div class="slide-content">
+                        <!-- <h2>Real-time Leaderboard</h2>
+                        <p>Track your progress and compete with others for the top spot</p> -->
+                    </div>
+                </div>
+                <div class="slide">
+                    <div class="slide-content">
+                        <!-- <h2>Instant Rewards</h2>
+                        <p>Win cash prizes for your knowledge and climb the ranks</p> -->
+                    </div>
+                </div>
+                <div class="slide">
+                    <div class="slide-content">
+                        <!-- <h2>Learn & Earn</h2>
+                        <p>Expand your knowledge while earning rewards and improving your skills</p> -->
+                    </div>
+                </div>
+                <div class="slide">
+                    <div class="slide-content">
+                        <!-- <h2>Join Now</h2>
+                        <p>Sign up today and start your journey to become a quiz champion</p> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-content">
+            <!-- Winners Section -->
+            <section class="winners-section">
+                <h2 class="section-title"><i class="fas fa-trophy"></i> Our Winners</h2>
+                <ul class="winner-list">
+                    <li class="winner-item">
+                        <div class="winner-avatar">1st</div>
+                        <div class="winner-details">
+                            <h3>First Prize</h3>
+                            <p>₹5100</p>
+                        </div>
+                    </li>
+                    <li class="winner-item">
+                        <div class="winner-avatar">2nd</div>
+                        <div class="winner-details">
+                            <h3>Second Prize</h3>
+                            <p>₹1100</p>
+                        </div>
+                    </li>
+                    <li class="winner-item">
+                        <div class="winner-avatar">3rd</div>
+                        <div class="winner-details">
+                            <h3>Third Prize</h3>
+                            <p>₹501</p>
+                        </div>
+                    </li>
+                    <li class="winner-item">
+                        <div class="winner-avatar">4-100</div>
+                        <div class="winner-details">
+                            <h3>Consolation Prize</h3>
+                            <p>₹51 each</p>
+                        </div>
+                    </li>
+                    <li class="winner-item">
+                        <div class="winner-avatar">101-200</div>
+                        <div class="winner-details">
+                            <h3>Participation Prize</h3>
+                            <p>₹21 each</p>
+                        </div>
+                    </li>
+                    <li class="winner-item">
+                        <div class="winner-avatar">201-300</div>
+                        <div class="winner-details">
+                            <h3>Encouragement Prize</h3>
+                            <p>₹16 each</p>
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- Dreams Section -->
+            <section class="dreams-section">
+                <h2 class="section-title"><i class="fas fa-star"></i> Make Your Dreams Come True</h2>
+                <div class="dreams-grid">
+                    <div class="dream-card">
+                        <div class="dream-image dream-1"></div>
+                        <div class="dream-content">
+                            <h3>Doctor</h3>
+                            <p>Save lives and make a difference in the world of medicine</p>
+                        </div>
+                    </div>
+                    <div class="dream-card">
+                        <div class="dream-image dream-2"></div>
+                        <div class="dream-content">
+                            <h3>Engineer</h3>
+                            <p>Build the future with innovation and cutting-edge technology</p>
+                        </div>
+                    </div>
+                    <div class="dream-card">
+                        <div class="dream-image dream-3"></div>
+                        <div class="dream-content">
+                            <h3>Teacher</h3>
+                            <p>Shape young minds and inspire future generations</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Profile Section (Initially Hidden) -->
+        <section class="profile-section" id="profileSection">
+            <div class="profile-header">
+                <div class="profile-avatar" id="profileAvatar">
+                    <span id="avatarText">U</span>
+                    <div class="profile-avatar-edit" id="editAvatarBtn">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                </div>
+                <div class="profile-details">
+                    <h2 id="profileName">User Name</h2>
+                    <p id="profileUserId">User ID: -</p>
+                    <p id="profileAge">Age: -</p>
+                    <p id="profileMobile">Mobile: -</p>
+                    <button class="btn btn-signup" id="editProfileBtn" style="margin-top: 10px;">
+                        <i class="fas fa-edit"></i> Edit Profile
+                    </button>
+                </div>
+            </div>
+            <div class="profile-stats">
+                <div class="stat-card">
+                    <div class="stat-value" id="completedQuizzes">0</div>
+                    <div class="stat-label">Quizzes Completed</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="correctAnswers">0</div>
+                    <div class="stat-label">Correct Answers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="totalEarnings">₹0</div>
+                    <div class="stat-label">Total Earnings</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="rank">-</div>
+                    <div class="stat-label">Current Rank</div>
+                </div>
+            </div>
+            <div class="quiz-actions">
+                <button class="btn btn-signup btn-quiz" id="continueQuizBtn"><i class="fas fa-play-circle"></i> Continue Quiz</button>
+                <button class="btn btn-login btn-quiz" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+
+            <!-- Edit Profile Form -->
+            <div class="edit-profile-form" id="editProfileForm">
+                <h2 class="section-title" style="margin-top: 30px;"><i class="fas fa-user-edit"></i> Edit Profile</h2>
+                <form id="profileForm">
+                    <div class="form-group">
+                        <label for="editName">Full Name</label>
+                        <input type="text" id="editName" class="form-control" placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="editAge">Age</label>
+                        <input type="number" id="editAge" class="form-control" placeholder="Enter your age" min="13">
+                    </div>
+                    <div class="form-group">
+                        <label for="editMobile">Mobile Number</label>
+                        <input type="tel" id="editMobile" class="form-control" placeholder="Enter your mobile number">
+                    </div>
+                    <div class="form-group">
+                        <label for="editPassword">New Password (leave blank to keep current)</label>
+                        <input type="password" id="editPassword" class="form-control" placeholder="Enter new password">
+                    </div>
+                    <div class="quiz-actions">
+                        <button type="submit" class="btn btn-signup btn-quiz">Save Changes</button>
+                        <button type="button" class="btn btn-login btn-quiz" id="cancelEditBtn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- Quiz Section (Initially Hidden) -->
+        <section class="quiz-container" id="quizContainer">
+            <div class="quiz-header">
+                <div class="quiz-timer" id="quizTimer">00:00:00</div>
+                <div class="quiz-progress" id="quizProgress">Question 1 of 25</div>
+            </div>
+            <div class="question-container">
+                <div class="question-text" id="questionText">Loading question...</div>
+                <div class="options-container" id="optionsContainer">
+                    <!-- Options will be populated by JavaScript -->
+                </div>
+            </div>
+            <div class="quiz-actions">
+                <button class="btn btn-login btn-quiz" id="prevQuestionBtn"> Previous</button>
+                <button class="btn btn-signup btn-quiz" id="nextQuestionBtn">Next</button>
+            </div>
+        </section>
+
+        <!-- Alerts -->
+        <div class="alert alert-success" id="successAlert">
+            <i class="fas fa-check-circle"></i> <span id="successMessage">Success message</span>
+        </div>
+        <div class="alert alert-danger" id="errorAlert">
+            <i class="fas fa-exclamation-circle"></i> <span id="errorMessage">Error message</span>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                        <li><a href="#"><i class="fas fa-trophy"></i> Leaderboard</a></li>
+                        <li><a href="#"><i class="fas fa-gift"></i> Rewards</a></li>
+                        <li><a href="#"><i class="fas fa-question-circle"></i> FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Categories</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-atom"></i> Physics</a></li>
+                        <li><a href="#"><i class="fas fa-calculator"></i> Mathematics</a></li>
+                        <li><a href="#"><i class="fas fa-dna"></i> Biology</a></li>
+                        <li><a href="#"><i class="fas fa-monument"></i> History</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fas fa-envelope"></i> Contact Us</a></li>
+                        <li><a href="#"><i class="fas fa-shield-alt"></i> Privacy Policy</a></li>
+                        <li><a href="#"><i class="fas fa-file-contract"></i> Terms & Conditions</a></li>
+                        <li><a href="#"><i class="fas fa-info-circle"></i> About Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Connect With Us</h3>
+                    <ul class="footer-links">
+                        <li><a href="#"><i class="fab fa-facebook"></i> Facebook</a></li>
+                        <li><a href="#"><i class="fab fa-twitter"></i> Twitter</a></li>
+                        <li><a href="#"><i class="fab fa-instagram"></i> Instagram</a></li>
+                        <li><a href="#"><i class="fab fa-youtube"></i> YouTube</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2023 AI Arena. All rights reserved. | Earn Through Knowledge
+            </div>
+        </div>
+    </footer>
+
+    <!-- Sign Up Modal -->
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeSignupModal">&times;</span>
+            <h2 class="modal-title">Create Your Account</h2>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" class="form-control" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" class="form-control" placeholder="Enter your age" min="13" required>
+                </div>
+                <div class="form-group">
+                    <label for="mobile">Mobile Number</label>
+                    <input type="tel" id="mobile" class="form-control" placeholder="Enter your mobile number" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="Create a password" required>
+                </div>
+                <button type="submit" class="btn btn-signup btn-block">Sign Up</button>
+            </form>
+            <p style="text-align: center; margin-top: 15px;">
+                Already have an account? <a href="#" id="loginFromSignup" style="color: var(--accent);">Login</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeLoginModal">&times;</span>
+            <h2 class="modal-title">Login to Your Account</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="userid">User ID</label>
+                    <input type="text" id="userid" class="form-control" placeholder="Enter your User ID" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" class="form-control" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="btn btn-signup btn-block">Login</button>
+            </form>
+            <p style="text-align: center; margin-top: 15px;">
+                Don't have an account? <a href="#" id="signupFromLogin" style="color: var(--accent);">Sign Up</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Avatar Upload Modal -->
+    <div class="modal" id="avatarModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeAvatarModal">&times;</span>
+            <h2 class="modal-title">Update Profile Picture</h2>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div class="profile-avatar" id="avatarPreview" style="margin: 0 auto; width: 150px; height: 150px; font-size: 60px;">
+                    <span id="avatarPreviewText">U</span>
+                </div>
+            </div>
+            <form id="avatarForm">
+                <div class="form-group">
+                    <label for="avatarUpload">Upload Image</label>
+                    <input type="file" id="avatarUpload" class="form-control" accept="image/*">
+                </div>
+                <div class="quiz-actions">
+                    <button type="submit" class="btn btn-signup btn-quiz">Save Picture</button>
+                    <button type="button" class="btn btn-login btn-quiz" id="cancelAvatarBtn">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Sample quiz questions
+        const quizQuestions = [
+            {
+                id: 1,
+                category: "Physics",
+                question: "What is the SI unit of force?",
+                options: ["Joule", "Newton", "Watt", "Pascal"],
+                correctAnswer: 1
+            },
+            {
+                id: 2,
+                category: "Mathematics",
+                question: "What is the value of π (pi) approximately?",
+                options: ["3.14", "2.71", "1.62", "1.41"],
+                correctAnswer: 0
+            },
+            {
+                id: 3,
+                category: "Biology",
+                question: "Which organelle is known as the powerhouse of the cell?",
+                options: ["Nucleus", "Mitochondria", "Ribosome", "Golgi Apparatus"],
+                correctAnswer: 1
+            },
+            {
+                id: 4,
+                category: "History",
+                question: "In which year did World War II end?",
+                options: ["1943", "1944", "1945", "1946"],
+                correctAnswer: 2
+            },
+            {
+                id: 5,
+                category: "Physics",
+                question: "Which law states that every action has an equal and opposite reaction?",
+                options: ["Newton's First Law", "Newton's Second Law", "Newton's Third Law", "Law of Gravitation"],
+                correctAnswer: 2
+            },
+            {
+                id: 6,
+                category: "Mathematics",
+                question: "What is the square root of 144?",
+                options: ["11", "12", "13", "14"],
+                correctAnswer: 1
+            },
+            {
+                id: 7,
+                category: "Biology",
+                question: "What is the largest organ in the human body?",
+                options: ["Liver", "Brain", "Skin", "Heart"],
+                correctAnswer: 2
+            },
+            {
+                id: 8,
+                category: "History",
+                question: "Who was the first President of the United States?",
+                options: ["Thomas Jefferson", "George Washington", "Abraham Lincoln", "John Adams"],
+                correctAnswer: 1
+            },
+            {
+                id: 9,
+                category: "Physics",
+                question: "What is the speed of light in vacuum?",
+                options: ["299,792,458 m/s", "300,000,000 m/s", "299,000,000 m/s", "301,000,000 m/s"],
+                correctAnswer: 0
+            },
+            {
+                id: 10,
+                category: "Mathematics",
+                question: "What is the value of 5! (5 factorial)?",
+                options: ["100", "120", "60", "25"],
+                correctAnswer: 1
+            }
+        ];
+
+        // DOM Elements
+        const signupBtn = document.getElementById('signupBtn');
+        const loginBtn = document.getElementById('loginBtn');
+        const signupModal = document.getElementById('signupModal');
+        const loginModal = document.getElementById('loginModal');
+        const closeSignupModal = document.getElementById('closeSignupModal');
+        const closeLoginModal = document.getElementById('closeLoginModal');
+        const signupForm = document.getElementById('signupForm');
+        const loginForm = document.getElementById('loginForm');
+        const loginFromSignup = document.getElementById('loginFromSignup');
+        const signupFromLogin = document.getElementById('signupFromLogin');
+        const successAlert = document.getElementById('successAlert');
+        const errorAlert = document.getElementById('errorAlert');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+        const profileSection = document.getElementById('profileSection');
+        const quizContainer = document.getElementById('quizContainer');
+        const continueQuizBtn = document.getElementById('continueQuizBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const quizTimer = document.getElementById('quizTimer');
+        const quizProgress = document.getElementById('quizProgress');
+        const questionText = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const prevQuestionBtn = document.getElementById('prevQuestionBtn');
+        const nextQuestionBtn = document.getElementById('nextQuestionBtn');
+        const profileAvatar = document.getElementById('profileAvatar');
+        const avatarText = document.getElementById('avatarText');
+        const profileName = document.getElementById('profileName');
+        const profileUserId = document.getElementById('profileUserId');
+        const profileAge = document.getElementById('profileAge');
+        const profileMobile = document.getElementById('profileMobile');
+        const completedQuizzes = document.getElementById('completedQuizzes');
+        const correctAnswers = document.getElementById('correctAnswers');
+        const totalEarnings = document.getElementById('totalEarnings');
+        const rank = document.getElementById('rank');
+        const editProfileBtn = document.getElementById('editProfileBtn');
+        const editProfileForm = document.getElementById('editProfileForm');
+        const profileForm = document.getElementById('profileForm');
+        const cancelEditBtn = document.getElementById('cancelEditBtn');
+        const editAvatarBtn = document.getElementById('editAvatarBtn');
+        const avatarModal = document.getElementById('avatarModal');
+        const closeAvatarModal = document.getElementById('closeAvatarModal');
+        const avatarForm = document.getElementById('avatarForm');
+        const avatarUpload = document.getElementById('avatarUpload');
+        const avatarPreview = document.getElementById('avatarPreview');
+        const avatarPreviewText = document.getElementById('avatarPreviewText');
+        const cancelAvatarBtn = document.getElementById('cancelAvatarBtn');
+
+        // Application State
+        let currentUser = null;
+        let userProgress = null;
+        let timerInterval = null;
+        let elapsedTime = 0;
+        let currentQuestionIndex = 0;
+        let userAnswers = [];
+        let quizStarted = false;
+
+        // Event Listeners
+        signupBtn.addEventListener('click', () => {
+            signupModal.style.display = 'flex';
+        });
+
+        loginBtn.addEventListener('click', () => {
+            loginModal.style.display = 'flex';
+        });
+
+        closeSignupModal.addEventListener('click', () => {
+            signupModal.style.display = 'none';
+        });
+
+        closeLoginModal.addEventListener('click', () => {
+            loginModal.style.display = 'none';
+        });
+
+        loginFromSignup.addEventListener('click', (e) => {
+            e.preventDefault();
+            signupModal.style.display = 'none';
+            loginModal.style.display = 'flex';
+        });
+
+        signupFromLogin.addEventListener('click', (e) => {
+            e.preventDefault();
+            loginModal.style.display = 'none';
+            signupModal.style.display = 'flex';
+        });
+
+        continueQuizBtn.addEventListener('click', startQuiz);
+
+        logoutBtn.addEventListener('click', logout);
+
+        editProfileBtn.addEventListener('click', () => {
+            editProfileForm.style.display = 'block';
+            document.getElementById('editName').value = currentUser.name;
+            document.getElementById('editAge').value = currentUser.age;
+            document.getElementById('editMobile').value = currentUser.mobile;
+        });
+
+        cancelEditBtn.addEventListener('click', () => {
+            editProfileForm.style.display = 'none';
+        });
+
+        editAvatarBtn.addEventListener('click', () => {
+            avatarModal.style.display = 'flex';
+            avatarPreviewText.textContent = currentUser.name.charAt(0).toUpperCase();
+        });
+
+        closeAvatarModal.addEventListener('click', () => {
+            avatarModal.style.display = 'none';
+        });
+
+        cancelAvatarBtn.addEventListener('click', () => {
+            avatarModal.style.display = 'none';
+        });
+
+        // Sign Up Form Submission
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const mobile = document.getElementById('mobile').value;
+            const password = document.getElementById('password').value;
+            
+            // Generate user ID
+            const userId = 'AI' + Math.floor(1000 + Math.random() * 9);
+            
+            // Create user object
+            const user = {
+                id: userId,
+                name: name,
+                age: age,
+                mobile: mobile,
+                password: password,
+                joinedDate: new Date().toLocaleDateString(),
+                completedQuizzes: 0,
+                correctAnswers: 0,
+                totalEarnings: 0,
+                rank: 'Newbie',
+                avatar: null
+            };
+            
+            // Save user to localStorage
+            localStorage.setItem(userId, JSON.stringify(user));
+            
+            // Create user progress
+            const progress = {
+                userId: userId,
+                currentQuiz: null,
+                elapsedTime: 0,
+                currentQuestionIndex: 0,
+                userAnswers: []
+            };
+            
+            localStorage.setItem(`progress_${userId}`, JSON.stringify(progress));
+            
+            // WhatsApp Integration - Send credentials to user
+            const whatsappMessage = `Welcome to AI Arena! Your account has been created successfully.%0A%0AUser ID: ${userId}%0APassword: ${password}%0A%0AStart earning through knowledge today!`;
+            const whatsappURL = `https://wa.me/${mobile}?text=${whatsappMessage}`;
+            
+            // Show success message with WhatsApp link
+            showAlert(`Account created successfully! Your User ID is: ${userId}. <a href="${whatsappURL}" target="_blank" style="color: white; text-decoration: underline;">Click here to send credentials to your WhatsApp</a>`, true);
+            
+            // Close modal
+            signupModal.style.display = 'none';
+            
+            // Clear form
+            signupForm.reset();
+            
+            // Auto login
+            currentUser = user;
+            userProgress = progress;
+            updateProfile();
+            showProfile();
+        });
+
+        // Login Form Submission
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const userId = document.getElementById('userid').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Check if user exists
+            const userData = localStorage.getItem(userId);
+            
+            if (!userData) {
+                showAlert('User ID not found. Please check your credentials or sign up.', false);
+                return;
+            }
+            
+            const user = JSON.parse(userData);
+            
+            if (user.password !== password) {
+                showAlert('Incorrect password. Please try again.', false);
+                return;
+            }
+            
+            // Login successful
+            currentUser = user;
+            
+            // Load user progress
+            const progressData = localStorage.getItem(`progress_${userId}`);
+            userProgress = progressData ? JSON.parse(progressData) : {
+                userId: userId,
+                currentQuiz: null,
+                elapsedTime: 0,
+                currentQuestionIndex: 0,
+                userAnswers: []
+            };
+            
+            updateProfile();
+            showProfile();
+            
+            // Close modal
+            loginModal.style.display = 'none';
+            
+            // Clear form
+            loginForm.reset();
+            
+            showAlert(`Welcome back, ${user.name}!`, true);
+        });
+
+        // Profile Form Submission
+        profileForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const name = document.getElementById('editName').value;
+            const age = document.getElementById('editAge').value;
+            const mobile = document.getElementById('editMobile').value;
+            const password = document.getElementById('editPassword').value;
+            
+            // Update user object
+            currentUser.name = name;
+            currentUser.age = age;
+            currentUser.mobile = mobile;
+            
+            if (password) {
+                currentUser.password = password;
+            }
+            
+            // Save updated user to localStorage
+            localStorage.setItem(currentUser.id, JSON.stringify(currentUser));
+            
+            // Update profile display
+            updateProfile();
+            
+            // Hide edit form
+            editProfileForm.style.display = 'none';
+            
+            showAlert('Profile updated successfully!', true);
+        });
+
+        // Avatar Form Submission
+        avatarForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const file = avatarUpload.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Store the image data URL
+                    currentUser.avatar = e.target.result;
+                    
+                    // Save updated user to localStorage
+                    localStorage.setItem(currentUser.id, JSON.stringify(currentUser));
+                    
+                    // Update profile display
+                    updateProfile();
+                    
+                    // Close modal
+                    avatarModal.style.display = 'none';
+                    
+                    showAlert('Profile picture updated successfully!', true);
+                };
+                reader.readAsDataURL(file);
+            } else {
+                showAlert('Please select an image to upload.', false);
+            }
+        });
+
+        // Quiz Navigation
+        prevQuestionBtn.addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+            }
+        });
+
+        nextQuestionBtn.addEventListener('click', () => {
+            if (currentQuestionIndex < quizQuestions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+            } else {
+                // End of quiz
+                finishQuiz();
+            }
+        });
+
+        // Functions
+        function showAlert(message, isSuccess) {
+            if (isSuccess) {
+                successMessage.innerHTML = message;
+                successAlert.style.display = 'flex';
+                errorAlert.style.display = 'none';
+                
+                setTimeout(() => {
+                    successAlert.style.display = 'none';
+                }, 80000);
+            } else {
+                errorMessage.textContent = message;
+                errorAlert.style.display = 'flex';
+                successAlert.style.display = 'none';
+                
+                setTimeout(() => {
+                    errorAlert.style.display = 'none';
+                }, 80000);
+            }
+        }
+
+        function updateProfile() {
+            if (!currentUser) return;
+            
+            // Update avatar
+            if (currentUser.avatar) {
+                profileAvatar.innerHTML = `<img src="${currentUser.avatar}" alt="Profile Avatar">`;
+                avatarText.style.display = 'none';
+            } else {
+                avatarText.textContent = currentUser.name.charAt(0).toUpperCase();
+                avatarText.style.display = 'flex';
+                profileAvatar.innerHTML = '';
+                profileAvatar.appendChild(avatarText);
+            }
+            
+            // Add edit button to avatar
+            profileAvatar.appendChild(editAvatarBtn);
+            
+            // Update profile details
+            profileName.textContent = currentUser.name;
+            profileUserId.textContent = `User ID: ${currentUser.id}`;
+            profileAge.textContent = `Age: ${currentUser.age}`;
+            profileMobile.textContent = `Mobile: ${currentUser.mobile}`;
+            completedQuizzes.textContent = currentUser.completedQuizzes;
+            correctAnswers.textContent = currentUser.correctAnswers;
+            totalEarnings.textContent = `₹${currentUser.totalEarnings}`;
+            rank.textContent = currentUser.rank;
+        }
+
+        function showProfile() {
+            profileSection.style.display = 'block';
+            quizContainer.style.display = 'none';
+            editProfileForm.style.display = 'none';
+        }
+
+        function showQuiz() {
+            profileSection.style.display = 'none';
+            quizContainer.style.display = 'block';
+        }
+
+        function startQuiz() {
+            // Reset quiz state
+            currentQuestionIndex = userProgress.currentQuestionIndex || 0;
+            elapsedTime = userProgress.elapsedTime || 0;
+            userAnswers = userProgress.userAnswers || [];
+            
+            // If no progress, start from beginning
+            if (userAnswers.length === 0) {
+                for (let i = 0; i < quizQuestions.length; i++) {
+                    userAnswers.push(null);
+                }
+            }
+            
+            // Start timer
+            startTimer();
+            
+            // Display first question
+            displayQuestion();
+            
+            // Show quiz container
+            showQuiz();
+        }
+
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            
+            // Update timer immediately
+            updateTimer();
+            
+            // Update timer every second
+            timerInterval = setInterval(() => {
+                elapsedTime++;
+                updateTimer();
+                
+                // Save progress every 10 seconds
+                if (elapsedTime % 10 === 0) {
+                    saveProgress();
+                }
+            }, 1000);
+        }
+
+        function updateTimer() {
+            const hours = Math.floor(elapsedTime / 3600);
+            const minutes = Math.floor((elapsedTime % 3600) / 60);
+            const seconds = elapsedTime % 60;
+            
+            quizTimer.textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function displayQuestion() {
+            const question = quizQuestions[currentQuestionIndex];
+            
+            // Update progress text
+            quizProgress.textContent = `Question ${currentQuestionIndex + 1} of ${quizQuestions.length}`;
+            
+            // Display question
+            questionText.textContent = question.question;
+            
+            // Display options
+            optionsContainer.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                
+                // Check if this option was previously selected
+                if (userAnswers[currentQuestionIndex] === index) {
+                    optionElement.classList.add('selected');
+                }
+                
+                optionElement.textContent = option;
+                optionElement.addEventListener('click', () => selectOption(index));
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Update navigation buttons
+            prevQuestionBtn.disabled = currentQuestionIndex === 0;
+            nextQuestionBtn.textContent = currentQuestionIndex === quizQuestions.length - 1 ? 
+                'Finish Quiz <i class="fas fa-flag-checkered"></i>' : 'Next';
+        }
+
+        function selectOption(optionIndex) {
+            // Remove selected class from all options
+            const options = document.querySelectorAll('.option');
+            options.forEach(option => option.classList.remove('selected', 'correct', 'incorrect'));
+            
+            // Add selected class to clicked option
+            options[optionIndex].classList.add('selected');
+            
+            // Save answer
+            userAnswers[currentQuestionIndex] = optionIndex;
+            
+            // Check if answer is correct
+            const question = quizQuestions[currentQuestionIndex];
+            const isCorrect = optionIndex === question.correctAnswer;
+            
+            // Show feedback
+            if (isCorrect) {
+                options[optionIndex].classList.add('correct');
+                showAlert('Correct answer! Well done.', true);
+            } else {
+                options[optionIndex].classList.add('incorrect');
+                // Show correct answer
+                options[question.correctAnswer].classList.add('correct');
+                showAlert(`Incorrect. The right answer is: ${question.options[question.correctAnswer]}`, false);
+            }
+            
+            // Save progress
+            saveProgress();
+        }
+
+        function saveProgress() {
+            if (!currentUser) return;
+            
+            const progress = {
+                userId: currentUser.id,
+                currentQuiz: 'general',
+                elapsedTime: elapsedTime,
+                currentQuestionIndex: currentQuestionIndex,
+                userAnswers: userAnswers
+            };
+            
+            localStorage.setItem(`progress_${currentUser.id}`, JSON.stringify(progress));
+        }
+
+        function finishQuiz() {
+            // Stop timer
+            clearInterval(timerInterval);
+            
+            // Calculate score
+            let correctCount = 0;
+            for (let i = 0; i < quizQuestions.length; i++) {
+                if (userAnswers[i] === quizQuestions[i].correctAnswer) {
+                    correctCount++;
+                }
+            }
+            
+            // Calculate earnings (hypothetical)
+            const earnings = Math.floor(correctCount * 10);
+            
+            // Update user stats
+            currentUser.completedQuizzes++;
+            currentUser.correctAnswers += correctCount;
+            currentUser.totalEarnings += earnings;
+            
+            // Update rank based on performance
+            if (currentUser.completedQuizzes >= 10 && currentUser.correctAnswers >= 200) {
+                currentUser.rank = 'Expert';
+            } else if (currentUser.completedQuizzes >= 5 && currentUser.correctAnswers >= 100) {
+                currentUser.rank = 'Advanced';
+            } else if (currentUser.completedQuizzes >= 3 && currentUser.correctAnswers >= 50) {
+                currentUser.rank = 'Intermediate';
+            } else {
+                currentUser.rank = 'Beginner';
+            }
+            
+            // Save updated user data
+            localStorage.setItem(currentUser.id, JSON.stringify(currentUser));
+            
+            // Clear progress (quiz completed)
+            localStorage.removeItem(`progress_${currentUser.id}`);
+            
+            // Show results
+            showAlert(`Quiz completed! You got ${correctCount} out of ${quizQuestions.length} correct. You earned ₹${earnings}.`, true);
+            
+            // Update profile and show it
+            updateProfile();
+            showProfile();
+        }
+
+        function logout() {
+            // Save progress before logging out
+            if (currentUser && quizStarted) {
+                saveProgress();
+            }
+            
+            // Clear state
+            currentUser = null;
+            userProgress = null;
+            clearInterval(timerInterval);
+            quizStarted = false;
+            
+            // Hide profile and quiz
+            profileSection.style.display = 'none';
+            quizContainer.style.display = 'none';
+            
+            // Show success message
+            showAlert('You have been logged out successfully.', true);
+        }
+
+        // Close modals when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === signupModal) {
+                signupModal.style.display = 'none';
+            }
+            if (e.target === loginModal) {
+                loginModal.style.display = 'none';
+            }
+            if (e.target === avatarModal) {
+                avatarModal.style.display = 'none';
+            }
+        });
+
+        // Check if user is already logged in
+        window.addEventListener('DOMContentLoaded', () => {
+            // In a real app, you would check for an active session
+            // For demo purposes, we'll just show the main page
+        });
+    </script>
+</body>
+</html>
