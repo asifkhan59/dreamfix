@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Arena - Earn Through Knowledge</title>
+    <title>DreamFix - Earn Through Knowledge</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -14,8 +14,8 @@
         }
 
         :root {
-            --primary: #6a11cb;
-            --secondary: #2575fc;
+            --primary: #a52a2a;
+            --secondary: #bb0000;
             --accent: #ff416c;
             --success: #00b09b;
             --danger: #ff416c;
@@ -23,8 +23,8 @@
             --light: #f8f9fa;
             --dark: #212529;
             --purple: #8e2de2;
-            --blue: #4a00e0;
-            --cyan: #00c6ff;
+            --blue: #ff416c;
+            --cyan: #ff8c00;
             --pink: #ff0080;
             --orange: #ff8c00;
         }
@@ -156,6 +156,7 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            position: relative;
         }
 
         .slide:nth-child(1) { background-image: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://cdn.wallpapersafari.com/65/88/cQ2Cf4.jpg'); }
@@ -172,6 +173,13 @@
             color: white;
             text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
             max-width: 600px;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+            animation-delay: 0.5s;
+        }
+
+        .slide:nth-child(1) .slide-content {
+            opacity: 1;
         }
 
         .slide-content h2 {
@@ -193,6 +201,11 @@
             66.64% { transform: translateX(-50%); }
             83.3% { transform: translateX(-66.666%); }
             100% { transform: translateX(-83.332%); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         /* Main Content */
@@ -272,6 +285,37 @@
             color: var(--warning);
             font-weight: 700;
             font-size: 18px;
+        }
+
+        /* Dropdown for winners */
+        .winners-dropdown {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+        }
+
+        .winners-dropdown.expanded {
+            max-height: 500px;
+        }
+
+        .dropdown-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: var(--cyan);
+            padding: 10px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            transition: all 0.3s;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .dropdown-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .dreams-grid {
@@ -596,6 +640,7 @@
             border-radius: 12px;
         }
 
+        /* Profile Section */
         .profile-section {
             display: none;
             background: rgba(255, 255, 255, 0.15);
@@ -702,6 +747,24 @@
             display: none;
         }
 
+        /* User Page Styles */
+        .user-page {
+            display: none;
+        }
+
+        .user-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .user-welcome {
+            font-size: 32px;
+            color: var(--cyan);
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
         /* Responsive Styles */
         @media (max-width: 768px) {
             .header-content {
@@ -743,13 +806,21 @@
             .profile-header {
                 flex-direction: column;
                 text-align: center;
+                color: yellowgreen;
+            }
+
+            .user-header {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+                color: peru;
             }
         }
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header>
+    <header id="mainHeader">
         <div class="container">
             <div class="header-content">
                 <div class="logo-section">
@@ -757,7 +828,7 @@
                         <!-- Replace with your own image path -->
                         <img src="https://www.timesbull.com/wp-content/uploads/2024/09/Earn-Money-Online-2-jpg.webp" alt="AI Arena Logo">
                     </div>
-                    <div class="logo-text">Dreamfix</div>
+                    <div class="logo-text">DreamFix</div>
                 </div>
                 <div class="auth-buttons">
                     <button class="btn btn-login" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Login</button>
@@ -767,133 +838,150 @@
         </div>
     </header>
 
-    <!-- Slider Section -->
-    <section class="slider-section">
-        <div class="slider">
-            <div class="slides">
-                <div class="slide">
-                    <div class="slide-content">
-                        <h2>Test Your Knowledge</h2>
-                        <p>Compete with the best minds and win exciting prizes in our AI-powered quiz arena</p>
+    <!-- Main Content (Visible when not logged in) -->
+    <div id="mainContent">
+        <!-- Slider Section -->
+        <section class="slider-section">
+            <div class="slider">
+                <div class="slides">
+                    <div class="slide">
+                        <div class="slide-content">
+                            <h2>Test Your Knowledge</h2>
+                            <p>Compete with the best minds and win exciting prizes in our AI-powered quiz arena</p>
+                        </div>
                     </div>
-                    
-                </div>
-                <div class="slide">
-                    <div class="slide-content">
-                        <!-- <h2>Multiple Categories</h2>
-                        <p>Physics, Math, Biology, History and more - challenge yourself in various subjects</p> -->
+                    <div class="slide">
+                        <div class="slide-content">
+                            <h2>Multiple Categories</h2>
+                            <p>Physics, Math, Biology, History and more - challenge yourself in various subjects</p>
+                        </div>
                     </div>
-                </div>
-                <div class="slide">
-                    <div class="slide-content">
-                        <!-- <h2>Real-time Leaderboard</h2>
-                        <p>Track your progress and compete with others for the top spot</p> -->
+                    <div class="slide">
+                        <div class="slide-content">
+                            <h2>Real-time Leaderboard</h2>
+                            <p>Track your progress and compete with others for the top spot</p>
+                        </div>
                     </div>
-                </div>
-                <div class="slide">
-                    <div class="slide-content">
-                        <!-- <h2>Instant Rewards</h2>
-                        <p>Win cash prizes for your knowledge and climb the ranks</p> -->
+                    <div class="slide">
+                        <div class="slide-content">
+                            <h2>Instant Rewards</h2>
+                            <p>Win cash prizes for your knowledge and climb the ranks</p>
+                        </div>
                     </div>
-                </div>
-                <div class="slide">
-                    <div class="slide-content">
-                        <!-- <h2>Learn & Earn</h2>
-                        <p>Expand your knowledge while earning rewards and improving your skills</p> -->
+                    <div class="slide">
+                        <div class="slide-content">
+                            <h2>Learn & Earn</h2>
+                            <p>Expand your knowledge while earning rewards and improving your skills</p>
+                        </div>
                     </div>
-                </div>
-                <div class="slide">
-                    <div class="slide-content">
-                        <!-- <h2>Join Now</h2>
-                        <p>Sign up today and start your journey to become a quiz champion</p> -->
+                    <div class="slide">
+                        <div class="slide-content">
+                            <h2>Join Now</h2>
+                            <p>Sign up today and start your journey to become a quiz champion</p>
+                        </div>
                     </div>
                 </div>
             </div>
+        </section>
+
+        <!-- Main Content -->
+        <div class="container">
+            <div class="main-content">
+                <!-- Winners Section -->
+                <section class="winners-section">
+                    <h2 class="section-title"><i class="fas fa-trophy"></i> Our Winners</h2>
+                    <ul class="winner-list" id="winnersList">
+                        <!-- First 3 winners will be shown by default -->
+                        <li class="winner-item">
+                            <div class="winner-avatar">1st</div>
+                            <div class="winner-details">
+                                <h3>First Prize</h3>
+                                <p>₹5100</p>
+                            </div>
+                        </li>
+                        <li class="winner-item">
+                            <div class="winner-avatar">2nd</div>
+                            <div class="winner-details">
+                                <h3>Second Prize</h3>
+                                <p>₹1100</p>
+                            </div>
+                        </li>
+                        <li class="winner-item">
+                            <div class="winner-avatar">3rd</div>
+                            <div class="winner-details">
+                                <h3>Third Prize</h3>
+                                <p>₹501</p>
+                            </div>
+                        </li>
+                        <!-- Additional winners in dropdown -->
+                        <div class="winners-dropdown" id="winnersDropdown">
+                            <li class="winner-item">
+                                <div class="winner-avatar">4-100</div>
+                                <div class="winner-details">
+                                    <h3>Consolation Prize</h3>
+                                    <p>₹51 each</p>
+                                </div>
+                            </li>
+                            <li class="winner-item">
+                                <div class="winner-avatar">101-200</div>
+                                <div class="winner-details">
+                                    <h3>Participation Prize</h3>
+                                    <p>₹21 each</p>
+                                </div>
+                            </li>
+                            <li class="winner-item">
+                                <div class="winner-avatar">201-300</div>
+                                <div class="winner-details">
+                                    <h3>Encouragement Prize</h3>
+                                    <p>₹16 each</p>
+                                </div>
+                            </li>
+                        </div>
+                    </ul>
+                    <button class="dropdown-toggle" id="winnersToggle">
+                        <i class="fas fa-chevron-down"></i> Show More Winners
+                    </button>
+                </section>
+
+                <!-- Dreams Section -->
+                <section class="dreams-section">
+                    <h2 class="section-title"><i class="fas fa-star"></i> Make Your Dreams Come True</h2>
+                    <div class="dreams-grid">
+                        <div class="dream-card">
+                            <div class="dream-image dream-1"></div>
+                            <div class="dream-content">
+                                <h3>Doctor</h3>
+                                <p>Save lives and make a difference in the world of medicine</p>
+                            </div>
+                        </div>
+                        <div class="dream-card">
+                            <div class="dream-image dream-2"></div>
+                            <div class="dream-content">
+                                <h3>Engineer</h3>
+                                <p>Build the future with innovation and cutting-edge technology</p>
+                            </div>
+                        </div>
+                        <div class="dream-card">
+                            <div class="dream-image dream-3"></div>
+                            <div class="dream-content">
+                                <h3>Teacher</h3>
+                                <p>Shape young minds and inspire future generations</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </div>
-    </section>
+    </div>
 
-    <!-- Main Content -->
-    <div class="container">
-        <div class="main-content">
-            <!-- Winners Section -->
-            <section class="winners-section">
-                <h2 class="section-title"><i class="fas fa-trophy"></i> Our Winners</h2>
-                <ul class="winner-list">
-                    <li class="winner-item">
-                        <div class="winner-avatar">1st</div>
-                        <div class="winner-details">
-                            <h3>First Prize</h3>
-                            <p>₹5100</p>
-                        </div>
-                    </li>
-                    <li class="winner-item">
-                        <div class="winner-avatar">2nd</div>
-                        <div class="winner-details">
-                            <h3>Second Prize</h3>
-                            <p>₹1100</p>
-                        </div>
-                    </li>
-                    <li class="winner-item">
-                        <div class="winner-avatar">3rd</div>
-                        <div class="winner-details">
-                            <h3>Third Prize</h3>
-                            <p>₹501</p>
-                        </div>
-                    </li>
-                    <li class="winner-item">
-                        <div class="winner-avatar">4-100</div>
-                        <div class="winner-details">
-                            <h3>Consolation Prize</h3>
-                            <p>₹51 each</p>
-                        </div>
-                    </li>
-                    <li class="winner-item">
-                        <div class="winner-avatar">101-200</div>
-                        <div class="winner-details">
-                            <h3>Participation Prize</h3>
-                            <p>₹21 each</p>
-                        </div>
-                    </li>
-                    <li class="winner-item">
-                        <div class="winner-avatar">201-300</div>
-                        <div class="winner-details">
-                            <h3>Encouragement Prize</h3>
-                            <p>₹16 each</p>
-                        </div>
-                    </li>
-                </ul>
-            </section>
-
-            <!-- Dreams Section -->
-            <section class="dreams-section">
-                <h2 class="section-title"><i class="fas fa-star"></i> Make Your Dreams Come True</h2>
-                <div class="dreams-grid">
-                    <div class="dream-card">
-                        <div class="dream-image dream-1"></div>
-                        <div class="dream-content">
-                            <h3>Doctor</h3>
-                            <p>Save lives and make a difference in the world of medicine</p>
-                        </div>
-                    </div>
-                    <div class="dream-card">
-                        <div class="dream-image dream-2"></div>
-                        <div class="dream-content">
-                            <h3>Engineer</h3>
-                            <p>Build the future with innovation and cutting-edge technology</p>
-                        </div>
-                    </div>
-                    <div class="dream-card">
-                        <div class="dream-image dream-3"></div>
-                        <div class="dream-content">
-                            <h3>Teacher</h3>
-                            <p>Shape young minds and inspire future generations</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
+    <!-- User Page (Visible when logged in) -->
+    <div class="container user-page" id="userPage">
+        <div class="user-header">
+            <h1 class="user-welcome">Welcome to Your DreamFix Dashboard!</h1>
+            <button class="btn btn-login" id="userLogoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
         </div>
 
-        <!-- Profile Section (Initially Hidden) -->
+        <!-- Profile Section -->
         <section class="profile-section" id="profileSection">
             <div class="profile-header">
                 <div class="profile-avatar" id="profileAvatar">
@@ -931,8 +1019,8 @@
                 </div>
             </div>
             <div class="quiz-actions">
+                <button class="btn btn-signup btn-quiz" id="startQuizBtn"><i class="fas fa-play-circle"></i> Start New Quiz</button>
                 <button class="btn btn-signup btn-quiz" id="continueQuizBtn"><i class="fas fa-play-circle"></i> Continue Quiz</button>
-                <button class="btn btn-login btn-quiz" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
             </div>
 
             <!-- Edit Profile Form -->
@@ -967,7 +1055,7 @@
         <section class="quiz-container" id="quizContainer">
             <div class="quiz-header">
                 <div class="quiz-timer" id="quizTimer">00:00:00</div>
-                <div class="quiz-progress" id="quizProgress">Question 1 of 25</div>
+                <div class="quiz-progress" id="quizProgress">Question 1 of 10</div>
             </div>
             <div class="question-container">
                 <div class="question-text" id="questionText">Loading question...</div>
@@ -976,8 +1064,9 @@
                 </div>
             </div>
             <div class="quiz-actions">
-                <button class="btn btn-login btn-quiz" id="prevQuestionBtn"> Previous</button>
-                <button class="btn btn-signup btn-quiz" id="nextQuestionBtn">Next</button>
+                <button class="btn btn-login btn-quiz" id="prevQuestionBtn"><i class="fas fa-arrow-left"></i> Previous</button>
+                <button class="btn btn-login btn-quiz" id="userPageLogoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                <button class="btn btn-signup btn-quiz" id="nextQuestionBtn">Next <i class="fas fa-arrow-right"></i></button>
             </div>
         </section>
 
@@ -991,7 +1080,7 @@
     </div>
 
     <!-- Footer -->
-    <footer>
+    <footer id="mainFooter">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
@@ -1089,29 +1178,6 @@
         </div>
     </div>
 
-    <!-- Avatar Upload Modal -->
-    <div class="modal" id="avatarModal">
-        <div class="modal-content">
-            <span class="close-modal" id="closeAvatarModal">&times;</span>
-            <h2 class="modal-title">Update Profile Picture</h2>
-            <div style="text-align: center; margin-bottom: 20px;">
-                <div class="profile-avatar" id="avatarPreview" style="margin: 0 auto; width: 150px; height: 150px; font-size: 60px;">
-                    <span id="avatarPreviewText">U</span>
-                </div>
-            </div>
-            <form id="avatarForm">
-                <div class="form-group">
-                    <label for="avatarUpload">Upload Image</label>
-                    <input type="file" id="avatarUpload" class="form-control" accept="image/*">
-                </div>
-                <div class="quiz-actions">
-                    <button type="submit" class="btn btn-signup btn-quiz">Save Picture</button>
-                    <button type="button" class="btn btn-login btn-quiz" id="cancelAvatarBtn">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <script>
         // Sample quiz questions
         const quizQuestions = [
@@ -1204,8 +1270,10 @@
         const errorMessage = document.getElementById('errorMessage');
         const profileSection = document.getElementById('profileSection');
         const quizContainer = document.getElementById('quizContainer');
+        const startQuizBtn = document.getElementById('startQuizBtn');
         const continueQuizBtn = document.getElementById('continueQuizBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
+        const userLogoutBtn = document.getElementById('userLogoutBtn');
+        const userPageLogoutBtn = document.getElementById('userPageLogoutBtn');
         const quizTimer = document.getElementById('quizTimer');
         const quizProgress = document.getElementById('quizProgress');
         const questionText = document.getElementById('questionText');
@@ -1226,14 +1294,12 @@
         const editProfileForm = document.getElementById('editProfileForm');
         const profileForm = document.getElementById('profileForm');
         const cancelEditBtn = document.getElementById('cancelEditBtn');
-        const editAvatarBtn = document.getElementById('editAvatarBtn');
-        const avatarModal = document.getElementById('avatarModal');
-        const closeAvatarModal = document.getElementById('closeAvatarModal');
-        const avatarForm = document.getElementById('avatarForm');
-        const avatarUpload = document.getElementById('avatarUpload');
-        const avatarPreview = document.getElementById('avatarPreview');
-        const avatarPreviewText = document.getElementById('avatarPreviewText');
-        const cancelAvatarBtn = document.getElementById('cancelAvatarBtn');
+        const mainContent = document.getElementById('mainContent');
+        const userPage = document.getElementById('userPage');
+        const mainHeader = document.getElementById('mainHeader');
+        const mainFooter = document.getElementById('mainFooter');
+        const winnersToggle = document.getElementById('winnersToggle');
+        const winnersDropdown = document.getElementById('winnersDropdown');
 
         // Application State
         let currentUser = null;
@@ -1243,6 +1309,7 @@
         let currentQuestionIndex = 0;
         let userAnswers = [];
         let quizStarted = false;
+        let winnersExpanded = false;
 
         // Event Listeners
         signupBtn.addEventListener('click', () => {
@@ -1273,9 +1340,10 @@
             signupModal.style.display = 'flex';
         });
 
-        continueQuizBtn.addEventListener('click', startQuiz);
-
-        logoutBtn.addEventListener('click', logout);
+        startQuizBtn.addEventListener('click', startNewQuiz);
+        continueQuizBtn.addEventListener('click', continueExistingQuiz);
+        userLogoutBtn.addEventListener('click', logout);
+        userPageLogoutBtn.addEventListener('click', logout);
 
         editProfileBtn.addEventListener('click', () => {
             editProfileForm.style.display = 'block';
@@ -1288,17 +1356,17 @@
             editProfileForm.style.display = 'none';
         });
 
-        editAvatarBtn.addEventListener('click', () => {
-            avatarModal.style.display = 'flex';
-            avatarPreviewText.textContent = currentUser.name.charAt(0).toUpperCase();
-        });
-
-        closeAvatarModal.addEventListener('click', () => {
-            avatarModal.style.display = 'none';
-        });
-
-        cancelAvatarBtn.addEventListener('click', () => {
-            avatarModal.style.display = 'none';
+        // Winners dropdown toggle
+        winnersToggle.addEventListener('click', () => {
+            if (winnersExpanded) {
+                winnersDropdown.classList.remove('expanded');
+                winnersToggle.innerHTML = '<i class="fas fa-chevron-down"></i> Show More Winners';
+                winnersExpanded = false;
+            } else {
+                winnersDropdown.classList.add('expanded');
+                winnersToggle.innerHTML = '<i class="fas fa-chevron-up"></i> Show Less Winners';
+                winnersExpanded = true;
+            }
         });
 
         // Sign Up Form Submission
@@ -1310,8 +1378,27 @@
             const mobile = document.getElementById('mobile').value;
             const password = document.getElementById('password').value;
             
-            // Generate user ID
-            const userId = 'AI' + Math.floor(1000 + Math.random() * 9);
+            // Check if user already exists with this mobile
+            let existingUser = null;
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('AI')) {
+                    const userData = localStorage.getItem(key);
+                    const user = JSON.parse(userData);
+                    if (user.mobile === mobile) {
+                        existingUser = user;
+                        break;
+                    }
+                }
+            }
+            
+            if (existingUser) {
+                showAlert(`You already have an account! Your User ID is: ${existingUser.id}. Please login instead.`, false);
+                return;
+            }
+            
+            // Generate unique user ID
+            const userId = generateUniqueUserId();
             
             // Create user object
             const user = {
@@ -1359,7 +1446,7 @@
             currentUser = user;
             userProgress = progress;
             updateProfile();
-            showProfile();
+            showUserPage();
         });
 
         // Login Form Submission
@@ -1398,7 +1485,7 @@
             };
             
             updateProfile();
-            showProfile();
+            showUserPage();
             
             // Close modal
             loginModal.style.display = 'none';
@@ -1439,34 +1526,6 @@
             showAlert('Profile updated successfully!', true);
         });
 
-        // Avatar Form Submission
-        avatarForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            
-            const file = avatarUpload.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    // Store the image data URL
-                    currentUser.avatar = e.target.result;
-                    
-                    // Save updated user to localStorage
-                    localStorage.setItem(currentUser.id, JSON.stringify(currentUser));
-                    
-                    // Update profile display
-                    updateProfile();
-                    
-                    // Close modal
-                    avatarModal.style.display = 'none';
-                    
-                    showAlert('Profile picture updated successfully!', true);
-                };
-                reader.readAsDataURL(file);
-            } else {
-                showAlert('Please select an image to upload.', false);
-            }
-        });
-
         // Quiz Navigation
         prevQuestionBtn.addEventListener('click', () => {
             if (currentQuestionIndex > 0) {
@@ -1486,6 +1545,14 @@
         });
 
         // Functions
+        function generateUniqueUserId() {
+            let userId;
+            do {
+                userId = 'DF' + Math.floor(10 + Math.random() * 90);
+            } while (localStorage.getItem(userId));
+            return userId;
+        }
+
         function showAlert(message, isSuccess) {
             if (isSuccess) {
                 successMessage.innerHTML = message;
@@ -1494,7 +1561,7 @@
                 
                 setTimeout(() => {
                     successAlert.style.display = 'none';
-                }, 80000);
+                }, 220000);
             } else {
                 errorMessage.textContent = message;
                 errorAlert.style.display = 'flex';
@@ -1502,7 +1569,7 @@
                 
                 setTimeout(() => {
                     errorAlert.style.display = 'none';
-                }, 80000);
+                }, 220000);
             }
         }
 
@@ -1510,18 +1577,7 @@
             if (!currentUser) return;
             
             // Update avatar
-            if (currentUser.avatar) {
-                profileAvatar.innerHTML = `<img src="${currentUser.avatar}" alt="Profile Avatar">`;
-                avatarText.style.display = 'none';
-            } else {
-                avatarText.textContent = currentUser.name.charAt(0).toUpperCase();
-                avatarText.style.display = 'flex';
-                profileAvatar.innerHTML = '';
-                profileAvatar.appendChild(avatarText);
-            }
-            
-            // Add edit button to avatar
-            profileAvatar.appendChild(editAvatarBtn);
+            avatarText.textContent = currentUser.name.charAt(0).toUpperCase();
             
             // Update profile details
             profileName.textContent = currentUser.name;
@@ -1532,21 +1588,54 @@
             correctAnswers.textContent = currentUser.correctAnswers;
             totalEarnings.textContent = `₹${currentUser.totalEarnings}`;
             rank.textContent = currentUser.rank;
+            
+            // Show/hide continue button based on progress
+            if (userProgress && userProgress.currentQuestionIndex > 0) {
+                continueQuizBtn.style.display = 'block';
+            } else {
+                continueQuizBtn.style.display = 'none';
+            }
         }
 
-        function showProfile() {
+        function showUserPage() {
+            mainContent.style.display = 'none';
+            mainHeader.style.display = 'none';
+            mainFooter.style.display = 'none';
+            userPage.style.display = 'block';
             profileSection.style.display = 'block';
             quizContainer.style.display = 'none';
             editProfileForm.style.display = 'none';
         }
 
-        function showQuiz() {
+        function showMainPage() {
+            mainContent.style.display = 'block';
+            mainHeader.style.display = 'block';
+            mainFooter.style.display = 'block';
+            userPage.style.display = 'none';
+        }
+
+        function startNewQuiz() {
+            // Reset quiz state
+            currentQuestionIndex = 0;
+            elapsedTime = 0;
+            userAnswers = [];
+            for (let i = 0; i < quizQuestions.length; i++) {
+                userAnswers.push(null);
+            }
+            
+            // Start timer
+            startTimer();
+            
+            // Display first question
+            displayQuestion();
+            
+            // Show quiz container
             profileSection.style.display = 'none';
             quizContainer.style.display = 'block';
         }
 
-        function startQuiz() {
-            // Reset quiz state
+        function continueExistingQuiz() {
+            // Reset quiz state from saved progress
             currentQuestionIndex = userProgress.currentQuestionIndex || 0;
             elapsedTime = userProgress.elapsedTime || 0;
             userAnswers = userProgress.userAnswers || [];
@@ -1565,7 +1654,8 @@
             displayQuestion();
             
             // Show quiz container
-            showQuiz();
+            profileSection.style.display = 'none';
+            quizContainer.style.display = 'block';
         }
 
         function startTimer() {
@@ -1623,7 +1713,7 @@
             // Update navigation buttons
             prevQuestionBtn.disabled = currentQuestionIndex === 0;
             nextQuestionBtn.textContent = currentQuestionIndex === quizQuestions.length - 1 ? 
-                'Finish Quiz <i class="fas fa-flag-checkered"></i>' : 'Next';
+                'Finish Quiz' : 'Next';
         }
 
         function selectOption(optionIndex) {
@@ -1712,7 +1802,8 @@
             
             // Update profile and show it
             updateProfile();
-            showProfile();
+            profileSection.style.display = 'block';
+            quizContainer.style.display = 'none';
         }
 
         function logout() {
@@ -1727,9 +1818,8 @@
             clearInterval(timerInterval);
             quizStarted = false;
             
-            // Hide profile and quiz
-            profileSection.style.display = 'none';
-            quizContainer.style.display = 'none';
+            // Show main page
+            showMainPage();
             
             // Show success message
             showAlert('You have been logged out successfully.', true);
@@ -1742,9 +1832,6 @@
             }
             if (e.target === loginModal) {
                 loginModal.style.display = 'none';
-            }
-            if (e.target === avatarModal) {
-                avatarModal.style.display = 'none';
             }
         });
 
